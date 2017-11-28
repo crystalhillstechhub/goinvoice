@@ -1,0 +1,23 @@
+{
+  "name": "goinvoice",
+  "version": "1.0.0",
+  "description": "This is an Invoice Application",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/crystalhillstechhub/goinvoice.git"
+  },
+  "keywords": [
+    "invoice",
+    "app"
+  ],
+  "author": "crystalhills",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/crystalhillstechhub/goinvoice/issues"
+  },
+  "homepage": "https://github.com/crystalhillstechhub/goinvoice#readme"
+}
