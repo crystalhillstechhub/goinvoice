@@ -20,8 +20,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use('/', index);
-// app.use('/api', categories);
-// app.use('/api', customers);
+app.use('/api', categories);
+app.use('/api', customers);
 app.use('/api', products);
 
 
