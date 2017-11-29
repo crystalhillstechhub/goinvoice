@@ -22,19 +22,19 @@ var categorySchema = mongoose.Schema({
 var categories = module.exports = mongoose.model('categories', categorySchema);
 
 //Get All Products
-module.exports.getcategories = function (callback, limit) {
+module.exports.getCategories = function (callback, limit) {
     categories.find(callback).limit(limit);
 }
 
-module.exports.getcategoriesById = function (id, callback) {
+module.exports.getCategoriesById = function (id, callback) {
     categories.findById(id, callback);
 }
 
-module.exports.addcategories = function (category, callback) {
+module.exports.addCategories = function (category, callback) {
     categories.create(category, callback);
 }
 
-module.exports.updatecategories = function (id, category, options, callback) {
+module.exports.updateCategories = function (id, category, options, callback) {
     var query = { _id: id };
     var update = {
         categoryName: category.categoryName,
@@ -43,7 +43,7 @@ module.exports.updatecategories = function (id, category, options, callback) {
     categories.findOneAndUpdate(query, update, options, callback);
 }
 
-module.exports.deletecategories = function (id, callback) {
+module.exports.deleteCategories = function (id, callback) {
     var query = { _id: id };
     categories.remove(query, callback);
 }

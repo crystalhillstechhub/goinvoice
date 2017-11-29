@@ -34,7 +34,7 @@ var customerSchema = mongoose.Schema({
     }
 });
 
-var customers = module.exports = mongoose.model('customers', categorySchema);
+var customers = module.exports = mongoose.model('customers', customerSchema);
 
 //Get All Customers
 module.exports.getCustomers = function (callback, limit) {
