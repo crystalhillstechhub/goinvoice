@@ -15,6 +15,7 @@ var index = require('./routes/index');
 var categories = require('./routes/categories');
 var customers = require('./routes/customers');
 var products = require('./routes/products');
+var home = require('./routes/home');
 
 // //Connect to Mongo DB
 mongoose.connect('mongodb://localhost/invoice');
@@ -78,6 +79,7 @@ app.use(function(req, res, next) {
 });
 
 app.use('/', index);
+app.use('/', home);
 app.use('/api', categories);
 app.use('/api', customers);
 app.use('/api', products);
