@@ -11,7 +11,7 @@ router.get('/register', function(req, res) {
 });
 
 // Login
-router.get('/login', function(req, res) {
+router.get('/', function(req, res) {
     res.render('login');
 });
 
@@ -52,7 +52,7 @@ router.post('/register', function(req, res) {
 
         req.flash('success_msg', 'You are registered and can now login');
 
-        res.redirect('/login');
+        res.redirect('/');
     }
 });
 
@@ -86,9 +86,9 @@ passport.deserializeUser(function(id, done) {
 });
 
 router.post('/login',
-    passport.authenticate('local', { successRedirect: '/', failureRedirect: '/login', failureFlash: true }),
+    passport.authenticate('local', { successRedirect: '/home', failureRedirect: '/', failureFlash: true }),
     function(req, res) {
-        res.redirect('/');
+        res.redirect('/index');
     });
 
 router.get('/logout', function(req, res) {
@@ -96,7 +96,7 @@ router.get('/logout', function(req, res) {
 
     req.flash('success_msg', 'You are logged out');
 
-    res.redirect('/login');
+    res.redirect('/');
 });
 
 module.exports = router;
