@@ -15,6 +15,11 @@ router.get('/', function(req, res) {
     res.render('login', { layout: false });
 });
 
+// Reset Password
+router.get('/forget', function(req, res) {
+    res.render('forget', { layout: false });
+});
+
 // Register User
 router.post('/register', function(req, res) {
     var companyname = req.body.companyname;
@@ -93,7 +98,8 @@ router.post('/login',
     passport.authenticate('local', { successRedirect: '/home', failureRedirect: '/', failureFlash: true }),
     function(req, res) {
         res.redirect('/index');
-    });
+    }
+);
 
 router.get('/logout', function(req, res) {
     req.logout();
