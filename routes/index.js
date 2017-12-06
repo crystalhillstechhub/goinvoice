@@ -17,14 +17,16 @@ router.get('/', function(req, res) {
 
 // Register User
 router.post('/register', function(req, res) {
-    var name = req.body.name;
+    var companyname = req.body.companyname;
+    var companyaddress = req.body.companyaddress;
     var email = req.body.email;
     var username = req.body.username;
     var password = req.body.password;
     var password2 = req.body.password2;
 
     // Validation
-    req.checkBody('name', 'Name is required').notEmpty();
+    req.checkBody('companyname', 'Company Name is required').notEmpty();
+    req.checkBody('companyaddress', 'Company Address is required').notEmpty();
     req.checkBody('email', 'Email is required').notEmpty();
     req.checkBody('email', 'Email is not valid').isEmail();
     req.checkBody('username', 'Username is required').notEmpty();
@@ -39,10 +41,12 @@ router.post('/register', function(req, res) {
         });
     } else {
         var newUser = new User({
-            name: name,
+            companyname: companyname,
+            companyaddress: companyaddress,
             email: email,
             username: username,
-            password: password
+            password: password,
+            password2: password2
         });
 
         User.createUser(newUser, function(err, user) {

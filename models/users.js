@@ -7,15 +7,18 @@ var UserSchema = mongoose.Schema({
         type: String,
         index: true
     },
+    companyname: {
+        type: String,
+    },
+    companyaddress: {
+        type: String,
+    },
     password: {
         type: String
     },
     email: {
         type: String
     },
-    name: {
-        type: String
-    }
 });
 
 var User = module.exports = mongoose.model('User', UserSchema);
