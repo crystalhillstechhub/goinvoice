@@ -28,6 +28,7 @@ router.get('/products/:_id', function(req, res) {
 // API POST REQUEST
 router.post('/products', function(req, res, next) {
     var products = req.body;
+    
     product.addProducts(products, function(err, products) {
         if (err) {
             res.send(err);

@@ -13,6 +13,11 @@ var productSchema = mongoose.Schema({
         require: true
     },
 
+    productDescription: {
+        type: String,
+        require: true
+    },
+
     productPrice: {
         type: String,
         require: true
@@ -54,6 +59,7 @@ module.exports.updateProducts = function(id, product, options, callback) {
     var update = {
         productName: product.productName,
         productCategory: product.productCategory,
+        productDescription: product.productDescription,
         productPrice: product.productPrice,
         expiryDate: product.expiryDate
     }

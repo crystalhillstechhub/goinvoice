@@ -2,8 +2,8 @@
 <html>
 <head>
 	<title>Go Invoice | Crystalhills</title>
-	<link rel="stylesheet" href="/css/bootstrap.css" />
-	<link rel="stylesheet" href="/css/style.css" />
+	{{!-- <link rel="stylesheet" href="/css/bootstrap.css" />
+	<link rel="stylesheet" href="/css/style.css" /> --}}
 </head>
 <body>
 	<div class="container">
@@ -12,6 +12,9 @@
           <ul class="nav nav-pills pull-right">
             {{#if user}}
               <li role="presentation"><a href="/home">Dashboard</a></li>
+              <li role="presentation">
+                <a href="/product">Add Product</a>
+              </li>
               <li role="presentation"><a href="/logout">Logout</a></li>
             {{else}}
               <li role="presentation"><a href="/register">Register</a></li>

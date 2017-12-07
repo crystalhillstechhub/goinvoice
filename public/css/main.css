@@ -18,6 +18,14 @@
  .height-refix{
    height: 100%;
  }
+ .mark{
+   margin: 20px;
+ }
+ .product-panel{
+   width: 80%;
+   margin: auto;
+ }
+ 
  .register-refix{
    margin-bottom: 60px;
  }
@@ -64,7 +72,7 @@ footer {
 /********************
  * LAYOUT
  ********************/
-#wrapper .sidebar {
+/* #wrapper .sidebar {
   -webkit-transition: all 0.3s ease-in-out;
   -moz-transition: all 0.3s ease-in-out;
   -ms-transition: all 0.3s ease-in-out;
@@ -75,7 +83,7 @@ footer {
   float: left;
   background-color: #2B333E;
   position: fixed;
-  left: 0; }
+  left: 0; } */
 
 #wrapper .main {
   -webkit-transition: all 0.3s ease-in-out;
@@ -83,7 +91,8 @@ footer {
   -ms-transition: all 0.3s ease-in-out;
   -o-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
-  width: calc(100% - 260px);
+  /* width: calc(100% - 260px); */
+  width: 100% !important;
   left: 0;
   position: relative;
   float: right;
@@ -99,7 +108,8 @@ footer {
     padding-top: 130px; } }
 
 .layout-fullwidth #wrapper .sidebar {
-  left: -260px; }
+  /* left: -260px; } */
+}
 
 .layout-fullwidth #wrapper .main {
   width: 100%; }
