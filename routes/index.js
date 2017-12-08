@@ -2,23 +2,47 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var crypto = require('crypto');
+var nodemailer = require('nodemailer');
+var async = require('async');
 
 var User = require('../models/users');
-
-// Register
-router.get('/register', function(req, res) {
-    res.render('register', { layout: false });
-});
 
 // Login
 router.get('/', function(req, res) {
     res.render('login', { layout: false });
 });
 
-// Reset Password
-router.get('/forget', function(req, res) {
-    res.render('forget', { layout: false });
+// Register
+router.get('/register', function(req, res) {
+    res.render('register', { layout: false });
 });
+
+// Generate Password Token
+router.get('/forgot', function(req, res) {
+    res.render('forgot', { layout: false });
+});
+
+//Enter New Password
+router.get('/reset/:token', function(req, res) {
+    User.getTokensDetails(req, function(err, user) {
+        if (!user) {
+            req.flash('error', 'Password reset token is invalid or has expired.');
+            return res.redirect('/forgot');
+        }
+        res.render('reset', {
+            user: req.user,
+            layout: false
+        });
+    });
+});
+
+
+router.post('/login', passport.authenticate('local', { successRedirect: '/home', failureRedirect: '/', failureFlash: true }),
+    function(req, res) {
+        res.redirect('/index');
+    }
+);
 
 // Register User
 router.post('/register', function(req, res) {
@@ -65,6 +89,128 @@ router.post('/register', function(req, res) {
     }
 });
 
+//Get Email And Send Link
+router.post('/forgot', function(req, res, next) {
+    async.waterfall([
+        function(done) {
+            crypto.randomBytes(20, function(err, buf) {
+                var token = buf.toString('hex');
+                done(err, token);
+            });
+        },
+        function(token, done) {
+            User.getUserByEmail(req.body.email, function(err, user) {
+                if (!user) {
+                    req.flash('error', 'No account with that email address exists.');
+                    return res.redirect('/forgot');
+                }
+
+                user.resetPasswordToken = token;
+                user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+
+                user.save(function(err) {
+                    done(err, token, user);
+                });
+            });
+        },
+        function(token, user, done) {
+            var smtpTransport = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: 'akinlekan@gmail.com',
+                    pass: 'motherland13'
+                }
+            });
+            var mailOptions = {
+                to: user.email,
+                from: 'no-reply@goinvoice.com',
+                subject: 'Password Reset Link',
+                text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+                    'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+                    'http://' + req.headers.host + '/reset/' + token + '\n\n' +
+                    'If you did not request this, please ignore this email and your password will remain unchanged.\n' +
+                    'Please Note: Link is Only Vaild for one Hour.'
+            };
+            smtpTransport.sendMail(mailOptions, function(err) {
+                req.flash('success_msg', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
+                done(err, 'done');
+            });
+        }
+    ], function(err) {
+        if (err) return next(err);
+        res.redirect('/forgot');
+    });
+});
+
+//Change Password
+router.post('/reset/:token', function(req, res) {
+    async.waterfall([
+        function(done) {
+            User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
+                if (!user) {
+                    req.flash('error', 'Password reset token is invalid or has expired. Link Timeout!');
+                    return res.redirect('/forgot');
+                } else {
+                    var password = req.body.password;
+                    var password2 = req.body.password2;
+
+                    // Validation
+                    req.checkBody('password', 'Password is required').notEmpty();
+                    req.checkBody('password2', 'Passwords do not match').equals(req.body.password);
+
+                    var errors = req.validationErrors();
+                    if (errors) {
+                        res.render('reset', {
+                            errors: errors
+                        });
+                    } else {
+                        user.password = password;
+                        user.resetPasswordToken = undefined;
+                        user.resetPasswordExpires = undefined;
+
+                        user.save(function(err) {
+                            req.logIn(user, function(err) {
+                                done(err, user);
+                            });
+                        });
+                    }
+                }
+            });
+        },
+        function(user, done) {
+            var smtpTransport = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: 'akinlekan@gmail.com',
+                    pass: 'motherland13'
+                }
+            });
+            var mailOptions = {
+                to: user.email,
+                from: 'passwordreset@demo.com',
+                subject: 'Your password has been changed',
+                text: 'Hello,\n\n' +
+                    'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
+            };
+            smtpTransport.sendMail(mailOptions, function(err) {
+                req.flash('success_msg', 'Success! Your password has been changed.');
+                done(err);
+            });
+        }
+    ], function(err) {
+        res.redirect('/');
+    });
+});
+
+router.get('/logout', function(req, res) {
+    req.logout();
+
+    req.flash('success_msg', 'You are logged out');
+
+    res.redirect('/');
+});
+
+//Password Auth
 passport.use(new LocalStrategy(
     function(username, password, done) {
         User.getUserByUsername(username, function(err, user) {
@@ -92,21 +238,6 @@ passport.deserializeUser(function(id, done) {
     User.getUserById(id, function(err, user) {
         done(err, user);
     });
-});
-
-router.post('/login',
-    passport.authenticate('local', { successRedirect: '/home', failureRedirect: '/', failureFlash: true }),
-    function(req, res) {
-        res.redirect('/index');
-    }
-);
-
-router.get('/logout', function(req, res) {
-    req.logout();
-
-    req.flash('success_msg', 'You are logged out');
-
-    res.redirect('/');
 });
 
 module.exports = router;

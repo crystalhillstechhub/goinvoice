@@ -1,38 +1,41 @@
 {
-    "name": "goinvoice",
-    "version": "1.0.0",
-    "description": "This is an Invoice Application",
-    "main": "app.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/crystalhillstechhub/goinvoice.git"
-    },
-    "keywords": [
-        "invoice",
-        "app"
-    ],
-    "author": "crystalhills",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/crystalhillstechhub/goinvoice/issues"
-    },
-    "homepage": "https://github.com/crystalhillstechhub/goinvoice#readme",
-    "dependencies": {
-        "bcryptjs": "*",
-        "body-parser": "^1.18.2",
-        "connect-flash": "*",
-        "cookie-parser": "^1.4.1",
-        "express": "^4.16.2",
-        "express-handlebars": "*",
-        "express-messages": "*",
-        "express-session": "*",
-        "express-validator": "*",
-        "mongoose": "^4.13.5",
-        "passport": "*",
-        "passport-http": "*",
-        "passport-local": "*"
-    }
+  "name": "goinvoice",
+  "version": "1.0.0",
+  "description": "This is an Invoice Application",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/crystalhillstechhub/goinvoice.git"
+  },
+  "keywords": [
+    "invoice",
+    "app"
+  ],
+  "author": "crystalhills",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/crystalhillstechhub/goinvoice/issues"
+  },
+  "homepage": "https://github.com/crystalhillstechhub/goinvoice#readme",
+  "dependencies": {
+    "async": "^2.6.0",
+    "bcryptjs": "*",
+    "body-parser": "^1.18.2",
+    "connect-flash": "*",
+    "cookie-parser": "^1.4.1",
+    "crypto": "^1.0.1",
+    "express": "^4.16.2",
+    "express-handlebars": "*",
+    "express-messages": "*",
+    "express-session": "*",
+    "express-validator": "*",
+    "mongoose": "^4.13.5",
+    "nodemailer": "^4.4.0",
+    "passport": "*",
+    "passport-http": "*",
+    "passport-local": "*"
+  }
 }

@@ -4,6 +4,24 @@ var mongoose = require('mongoose');
 
 product = require('../models/products');
 
+function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    } else {
+        //req.flash('error_msg','You are not logged in');
+        res.redirect('/');
+    }
+}
+router.get('/products', ensureAuthenticated, function(req, res) {
+    product.getProducts(function(err, product) {
+        if (err) {
+            res.send(err);
+        }
+        res.render('addproduct', { products: res.product });
+
+    });
+
+});
 
 // API GET REQUEST FOR ALL productS
 router.get('/products', function(req, res, next) {
@@ -28,7 +46,7 @@ router.get('/products/:_id', function(req, res) {
 // API POST REQUEST
 router.post('/products', function(req, res, next) {
     var products = req.body;
-    
+
     product.addProducts(products, function(err, products) {
         if (err) {
             res.send(err);

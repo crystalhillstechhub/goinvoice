@@ -11,6 +11,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
 
+
 var index = require('./routes/index');
 var categories = require('./routes/categories');
 var customers = require('./routes/customers');
@@ -78,11 +79,12 @@ app.use(function(req, res, next) {
     next();
 });
 
+
 app.use('/', index);
 app.use('/', home);
-app.use('/api', categories);
-app.use('/api', customers);
-app.use('/api', products);
+app.use('/', categories);
+app.use('/', customers);
+app.use('/', products);
 
 
 // Set Port
