@@ -12,7 +12,7 @@ router.get('/profile', ensureAuthenticated, function (req, res) {
 });
 
 router.get('/product', ensureAuthenticated, function(req, res){
-    res.render('addproduct', { layout: false });
+    res.render('addproduct');
 });
 
 router.get('/test', ensureAuthenticated, function (req, res) {
