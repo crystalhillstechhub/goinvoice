@@ -1791,3 +1791,6 @@ ul.activity-timeline > li {
     border: 1px solid #CCC; }
 
 /*# sourceMappingURL=main.css.map */
+.tabw{
+  width: 100% !important;
+}

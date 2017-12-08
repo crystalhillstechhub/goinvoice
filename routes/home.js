@@ -15,9 +15,14 @@ router.get('/product', ensureAuthenticated, function(req, res){
     res.render('addproduct');
 });
 
-router.get('/test', ensureAuthenticated, function (req, res) {
-    res.render('test', { layout: false });
+router.get('/customer', ensureAuthenticated, function(req, res){
+    res.render('addcustomer');
 });
+
+router.get('/category', ensureAuthenticated, function(req, res){
+    res.render('addcategory');
+});
+
 
 router.post('/product', function (req, res) {
     
