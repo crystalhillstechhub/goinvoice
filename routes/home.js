@@ -15,6 +15,7 @@ router.get('/product', ensureAuthenticated, function(req, res) {
     res.render('addproduct');
 });
 
+
 router.post('/product', function(req, res) {
 
     var productName = req.body.productName;
