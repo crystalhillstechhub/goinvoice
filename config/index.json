@@ -1,4 +1,0 @@
-{
-    "dbUri": "mongodb://localhost/invoice",
-    "jwtSecret": "a secret phrase!!"
-}
