@@ -15,101 +15,88 @@
                 </div>
             </div>
             <div class="panel-body">
-                <div class="row">
-                    <div class="col-sm-6 text-center">
-                        <div class="m-b-30">
-                            <button id="addToTable" class="btn btn-success waves-effect waves-light">Add
-                                <i class="mdi mdi-plus-circle-outline"></i>
-                            </button>
-                            <br>
+                <!-- TABBED CONTENT -->
+                <div class="custom-tabs-line tabs-line-bottom left-aligned">
+                    <ul class="nav" role="tablist">
+                        <li class="active"><a href="#tab-bottom-left1" role="tab" data-toggle="tab">Add Product</a></li>
+                        <li><a href="#tab-bottom-left2" role="tab" data-toggle="tab">All Products <span class="badge">7</span></a></li>
+                    </ul>
+                </div>
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="tab-bottom-left1">
+                        <form class="form-auth-small" method="post" action="/products">
+                            {{#if success_msg}}
+                                <div class="alert alert-success">{{success_msg}}</div>
+                            {{/if}} {{#if error_msg}}
+                                <div class="alert alert-danger">{{error_msg}}</div>
+                            {{/if}} {{#if error}}
+                                <div class="alert alert-danger">{{error}}</div>
+                            {{/if}}
+                            <div class="form-group">
+                                <label for="signin-email" class="control-label sr-only">Product Name</label>
+                                <input type="text" class="form-control" name="productName" placeholder="Ch101">
+                            </div>
+                            <div class="form-group">
+                                <label for="signin-email" class="control-label sr-only">Product Category</label>
+                                <input type="text" class="form-control" name="productCategory" placeholder="Biometrics">
+                            </div>
+                            <div class="form-group">
+                                <label for="signin-email" class="control-label sr-only">Product Price</label>
+                                <input type="number" class="form-control" name="productPrice" placeholder="100">
+                            </div>
+                            <div class="form-group">
+                                <label for="signin-email" class="control-label sr-only">Product Quantity</label>
+                                <input type="number" class="form-control" name="productQuantity" placeholder="100">
+                            </div>
+                            <div class="form-group">
+                                <label for="signin-password" class="control-label sr-only">Product Description</label>
+                                <textarea type="text" class="form-control" name="productDescription" placeholder="Attendance"></textarea>
+                            </div>
+                            <div class="form-group clearfix">
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-sm btn-block">Add Product</button>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="tab-bottom-left2">
+                        <div class="table-responsive">
+                            <table class="table project-table">
+                                <thead>
+                                    <tr>
+                                        <th>Product Name</th>
+                                        <th>Product Category</th>
+                                        <th>Product Description</th>
+                                        <th>Product Price</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{#each products}}
+                                        <tr>
+                                            <td>{{productName}}</td>
+                                            <td>{{productCategory}}</td>
+                                            <td>{{productDescription}}</td>
+                                            <td>{{productPrice}}</td>
+                                            <td>
+                                                <a href="/products/{{_id}}">
+                                                    <i class="fa fa-pencil"></i>
+                                                </a>
+                                                &nbsp; &nbsp; &nbsp;
+                                                <a href="/products/{{_id}}">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                            </td>                                        
+                                        </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-                
-                <div class="row tabw">
-                    <table class="table table-striped add-edit-table table-bordered" id="datatable-editable">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Price</th>
-                                <th>Quantity</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="gradeA">
-                                <td>Trident</td>
-                                <td>Internet Explorer 7</td>
-                                <td>Win XP SP2+</td>
-                                <td class="actions">
-                                    <a href="#" class="hidden on-editing save-row">
-                                        <i class="fa fa-save"></i>
-                                    </a>
-                                    <a href="#" class="hidden on-editing cancel-row">
-                                        <i class="fa fa-times"></i>
-                                    </a>
-                                    <a href="#" class="on-default edit-row">
-                                        <i class="fa fa-pencil"></i>
-                                    </a>
-                                    <a href="#" class="on-default remove-row">
-                                        <i class="fa fa-trash-o"></i>
-                                    </a>
-                                </td>
-
-                            <tr class="gradeA">
-                                <td>Gecko</td>
-                                <td>Firefox 1.5</td>
-                                <td>Win 98+ / OSX.2+</td>
-                                <td class="actions">
-                                    <a href="#" class="hidden on-editing save-row">
-                                        <i class="fa fa-save"></i>
-                                    </a>
-                                    <a href="#" class="hidden on-editing cancel-row">
-                                        <i class="fa fa-times"></i>
-                                    </a>
-                                    <a href="#" class="on-default edit-row">
-                                        <i class="fa fa-pencil"></i>
-                                    </a>
-                                    <a href="#" class="on-default remove-row">
-                                        <i class="fa fa-trash-o"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                
-                        </tbody>
-                    </table>
-                </div>
+                <!-- END TABBED CONTENT -->
             
             </div>
         </div>
         <!-- END TIMELINE -->
     </div>
 
-
 </div>
-
-
-<!-- MODAL -->
-<div id="dialog" class="modal-block mfp-hide">
-    <section class="panel panel-info panel-color">
-        <header class="panel-heading">
-            <h2 class="panel-title">Are you sure?</h2>
-        </header>
-        <div class="panel-body">
-            <div class="modal-wrapper">
-                <div class="modal-text">
-                    <p>Are you sure that you want to delete this row?</p>
-                </div>
-            </div>
-
-            <div class="row m-t-20">
-                <div class="col-md-12 text-right">
-                    <button id="dialogConfirm" class="btn btn-primary waves-effect waves-light">Confirm</button>
-                    <button id="dialogCancel" class="btn btn-default waves-effect">Cancel</button>
-                </div>
-            </div>
-        </div>
-
-    </section>
-</div>
-<!-- end Modal -->

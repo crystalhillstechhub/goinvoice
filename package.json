@@ -34,8 +34,12 @@
     "express-validator": "*",
     "mongoose": "^4.13.5",
     "nodemailer": "^4.4.0",
+    "nodemon": "^1.12.7",
     "passport": "*",
     "passport-http": "*",
     "passport-local": "*"
+  },
+  "devDependencies": {
+    "nodemon": "^1.12.7"
   }
 }

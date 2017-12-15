@@ -28,7 +28,7 @@ var productSchema = mongoose.Schema({
         require: true
     },
 
-    expiryDate: {
+    productQuantityLeft: {
         type: String,
         require: true
     },
@@ -56,14 +56,8 @@ module.exports.addProducts = function(product, callback) {
 
 module.exports.updateProducts = function(id, product, options, callback) {
     var query = { _id: id };
-    var update = {
-        productName: product.productName,
-        productCategory: product.productCategory,
-        productDescription: product.productDescription,
-        productPrice: product.productPrice,
-        expiryDate: product.expiryDate
-    }
-    products.findOneAndUpdate(query, update, options, callback);
+    
+    products.findOneAndUpdate(query, product, options, callback);
 }
 
 module.exports.deleteProducts = function(id, callback) {

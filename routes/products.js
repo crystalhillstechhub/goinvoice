@@ -12,59 +12,102 @@ function ensureAuthenticated(req, res, next) {
         res.redirect('/');
     }
 }
+
 router.get('/products', ensureAuthenticated, function(req, res) {
     product.getProducts(function(err, product) {
         if (err) {
             res.send(err);
+        }else{
+            res.render('addProduct', {products: product});
         }
-        res.render('addproduct', { products: res.product });
-
-    });
-
-});
-
-// API GET REQUEST FOR ALL productS
-router.get('/products', function(req, res, next) {
-    product.getProducts(function(err, product) {
-        if (err) {
-            res.send(err);
-        }
-        res.json(product);
     });
 });
+
 
 //  API GET REQUEST FOR ONE productS
-router.get('/products/:_id', function(req, res) {
+router.get('/products/:_id', ensureAuthenticated, function(req, res) {
     product.getProductsById(req.params._id, function(err, product) {
         if (err) {
             res.send(err);
         }
-        res.json(product);
+        else{
+            res.render('editProduct', {products: product});    
+        }
     });
 });
 
 // API POST REQUEST
-router.post('/products', function(req, res, next) {
-    var products = req.body;
+router.post('/products', ensureAuthenticated, function(req, res, next) {
+    var productName = req.body.productName;
+    var productCategory = req.body.productCategory;
+    var productPrice = req.body.productPrice;
+    var productQuantity = req.body.productQuantity;
+    var productDescription = req.body.productDescription;
+      // Validation
+    req.checkBody('productName', 'Product Name is required').notEmpty();
+    req.checkBody('productCategory', 'Product Category is required').notEmpty();
+    req.checkBody('productPrice', 'Product Price is required').notEmpty();
+    req.checkBody('productQuantity', 'Product Price is required').notEmpty();   
+    var errors = req.validationErrors();
+    if (errors) {
+        res.render('addProduct', {
+            errors: errors
+        });
+    }else{
+        var newProduct = new product({
+            productName: productName,
+            productCategory: productCategory,
+            productPrice: productPrice,
+            productQuantity: productQuantity,
+            productDescription: productDescription
+        });
 
-    product.addProducts(products, function(err, products) {
-        if (err) {
-            res.send(err);
-        }
-        res.json(product);
-    });
+        product.addProducts(newProduct, function(err, product) {
+            if (err) throw err;
+            console.log(product);
+        });
+
+        req.flash('success_msg', 'You registered a product');
+
+        res.redirect('/product');
+    }
 });
 
 // API PUT REQUEST
-router.put('/products/:_id', function(req, res, next) {
+router.put('/products/:_id', ensureAuthenticated, function(req, res, next) {
     var id = req.params._id
-    var products = req.body;
-    product.updateProducts(id, products, {}, function(err, products) {
-        if (err) {
-            res.send(err);
-        }
-        res.json(products);
-    });
+    var productName = req.body.productName;
+    var productCategory = req.body.productCategory;
+    var productPrice = req.body.productPrice;
+    var productQuantity = req.body.productQuantity;
+    var productDescription = req.body.productDescription;
+      // Validation
+    req.checkBody('productName', 'Product Name is required').notEmpty();
+    req.checkBody('productCategory', 'Product Category is required').notEmpty();
+    req.checkBody('productPrice', 'Product Price is required').notEmpty();
+    req.checkBody('productQuantity', 'Product Price is required').notEmpty();   
+    var errors = req.validationErrors();
+    if (errors) {
+        res.render('editProduct', {
+            errors: errors
+        });
+    }else{
+        var update = new product({
+            productName: productName,
+            productCategory: productCategory,
+            productQuantity: productQuantity,
+            productDescription: productDescription,
+            productPrice: productPrice,
+        });
+
+        product.updateProducts(id, update, {}, function(err, product) {
+            if (err) {
+                res.send(err);
+            }
+            req.flash('success_msg', 'You Updated a product');
+            res.redirect("/products/:+req.params._id+");
+        });
+    }
 });
 
 //  API Delete REQUEST FOR ONE productS
