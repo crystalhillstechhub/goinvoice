@@ -23,7 +23,7 @@
                 </div>
                 <div class="tab-content">
                     <div class="tab-pane fade in active" id="tab-bottom-left1">
-                        <form class="form-auth-small" method="post" action="/products/{{_id}}">
+                        <form class="form-auth-small" method="post" action="/products/edit/{{products._id}}">
                             {{#if success_msg}}
                                 <div class="alert alert-success">{{success_msg}}</div>
                             {{/if}} {{#if error_msg}}

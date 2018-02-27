@@ -25,7 +25,7 @@ router.get('/products', ensureAuthenticated, function(req, res) {
 
 
 //  API GET REQUEST FOR ONE productS
-router.get('/products/:_id', ensureAuthenticated, function(req, res) {
+router.get('/products/:id', ensureAuthenticated, function(req, res) {
     product.getProductsById(req.params._id, function(err, product) {
         if (err) {
             res.send(err);
@@ -74,8 +74,7 @@ router.post('/products', ensureAuthenticated, function(req, res, next) {
 });
 
 // API PUT REQUEST
-router.put('/products/:_id', ensureAuthenticated, function(req, res, next) {
-    var id = req.params._id
+router.put('/products/edit/:id', ensureAuthenticated, function(req, res, next) {
     var productName = req.body.productName;
     var productCategory = req.body.productCategory;
     var productPrice = req.body.productPrice;
@@ -92,21 +91,21 @@ router.put('/products/:_id', ensureAuthenticated, function(req, res, next) {
             errors: errors
         });
     }else{
-        var update = new product({
+        var update = {
             productName: productName,
             productCategory: productCategory,
             productQuantity: productQuantity,
             productDescription: productDescription,
             productPrice: productPrice,
-        });
+        };
 
-        product.updateProducts(id, update, {}, function(err, product) {
+        product.updateProducts(req.params.id, update, {}, function(err, product) {
             if (err) {
                 res.send(err);
             }
             req.flash('success_msg', 'You Updated a product');
-            res.redirect("/products/:+req.params._id+");
-        });
+            res.redirect('/products/'+req.params.id);
+        })
     }
 });
 

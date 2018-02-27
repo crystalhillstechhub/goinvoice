@@ -56,7 +56,6 @@ module.exports.addProducts = function(product, callback) {
 
 module.exports.updateProducts = function(id, product, options, callback) {
     var query = { _id: id };
-    
     products.findOneAndUpdate(query, product, options, callback);
 }
 
